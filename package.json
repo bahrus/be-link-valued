@@ -1,11 +1,39 @@
 {
   "name": "be-link-valued",
   "version": "0.0.0",
+  "keywords": [
+    "web-components",
+    "web-component",
+    "custom-element",
+    "custom-elements"
+  ],
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "main": "be-link-valued.js",
+  "module": "be-link-valued.js",
+  "exports": {
+    ".": "./be-link-valued.js",
+    "./be-link-valued.js": "./be-link-valued.js"
   },
-  "author": "",
+  "files": [
+    "*.js",
+    "types.d.ts"
+  ],
+  "types": "types.d.ts",
+  "scripts": {
+    "test": "playwright test",
+    "serve": "node node_modules/may-it-serve/serve.js",
+    "safari": "npx playwright wk http://localhost:3030"
+  },
+  "dependencies": {
+    "be-enhanced": "0.0.21",
+    "be-hive": "0.0.95",
+    "trans-render": "0.0.683",
+    "xtal-element": "0.0.562"
+  },
+  "devDependencies": {
+    "may-it-serve": "0.0.5",
+    "@playwright/test": "1.34.3"
+  },
+  "author": "anderson.bruce.b@gmail.com",
   "license": "MIT"
 }

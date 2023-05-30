@@ -1,5 +1,7 @@
 # be-link-valued [TODO]
 
+Monitor href attribute for enumerated values.
+
 Microdata provides boolean / enumerated type status values via urls.  For example:
 
 ```html
@@ -15,9 +17,7 @@ What be-link-valued does is watch for changing values of the href, and broadcast
 would result in:
 
 ```JavaScript
-availabilityLink.beEnhanced.beLinkValued.value = {
-    availability: 'InStock'
-};
+availabilityLink.beEnhanced.beLinkValued.value = 'InStock';
 availabilityLink.beEnhanced.beLinkValued.addEventListener('value-changed', e => {
     //fires anytime href changes
 })
