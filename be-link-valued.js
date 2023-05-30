@@ -13,6 +13,7 @@ export class BeLinkValued extends BE {
             this.calcVal();
         });
         this.#mutationObserver.observe(enhancedElement);
+        this.calcVal();
     }
     calcVal() {
         const { enhancedElement } = this;

@@ -16,6 +16,7 @@ export class BeLinkValued extends BE<AP, Actions, HTMLLinkElement> implements Ac
             this.calcVal();
         });
         this.#mutationObserver.observe(enhancedElement);
+        this.calcVal();
     }
     calcVal(){
         const {enhancedElement} = this;
