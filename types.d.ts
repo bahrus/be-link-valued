@@ -1,9 +1,14 @@
 import { ActionOnEventConfigs } from "trans-render/froop/types";
 import {IBE, Declarations} from 'be-enhanced/types';
 
-export interface EndUserProps extends IBE<HTMLLinkElement>{}
+export interface EndUserProps extends IBE<HTMLLinkElement>{
+    
+}
 
-export interface AllProps extends EndUserProps{}
+
+export interface AllProps extends EndUserProps{
+    value?: string | boolean
+}
 
 export type AP = AllProps;
 
