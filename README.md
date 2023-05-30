@@ -30,7 +30,13 @@ https://schema.org/True , https://Schema.org/False automatically maps to boolean
 be-link-valued can also automatically set the display property of the link attribute, so that css can use ::after or ::before to display some text:
 
 ```html
-<link id=availabilityLink itemprop="availability" href="https://schema.org/InStock" be-link-valued=inline />In stock
+<link id=availabilityLink itemprop="availability" href="https://schema.org/InStock" be-link-valued=inline />
+
+<style>
+    link[itemprop=availability][href="https://schea.org/InStock"]::after{
+        content: "In stock"
+    }
+</style>
 ```
 
-...sets the style.display property to inline when an href is present.  It is removed when no href is present.
+...sets the style.display property of the link tag to inline when an href is present.  It is removed when no href is present.
