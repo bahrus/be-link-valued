@@ -10,7 +10,7 @@
 		"strict": true,
 	},
 	"files":[
-		"be-intl.ts"
+		"be-link-valued.ts"
 	],
 	"exclude":[
 		"node_modules"
