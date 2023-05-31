@@ -6,6 +6,7 @@ import { register } from 'be-hive/register.js';
 
 export class BeLinkValued extends BE<AP, Actions, HTMLLinkElement> implements Actions{
     #mutationObserver: MutationObserver | undefined;
+    #ignoreValChange = false;
     override async attach(enhancedElement: HTMLLinkElement, enhancementInfo: EnhancementInfo): Promise<void> {
         await super.attach(enhancedElement, enhancementInfo);
         const mutOptions: MutationObserverInit = {
@@ -26,6 +27,7 @@ export class BeLinkValued extends BE<AP, Actions, HTMLLinkElement> implements Ac
         }
         const split = (enhancedElement.getAttribute('href')!).split('/');
         const lastVal = split.at(-1);
+        this.#ignoreValChange = true;
         switch(lastVal){
             case 'True':
                 this.value = true;
@@ -36,9 +38,22 @@ export class BeLinkValued extends BE<AP, Actions, HTMLLinkElement> implements Ac
             default:
                 this.value = lastVal;
         }
+        this.resolved = true;
     }
     override detach(detachedElement: HTMLLinkElement) {
         if(this.#mutationObserver !== undefined) this.#mutationObserver.disconnect();
+    }
+
+    onValChange(self: this): void {
+        if(this.#ignoreValChange){
+            this.#ignoreValChange = false;
+            return;
+        }
+        const {value, enhancedElement} = self;
+        if(value === undefined) return;
+        const urlVal = value === true ? 'True' :
+            value === false ? 'False' : value;
+        enhancedElement.href = 'https://schema.org/' + urlVal;
     }
 }
 
@@ -62,7 +77,11 @@ const xe = new XE<AP, Actions>({
                 }
             }
         },
-        actions: {}
+        actions: {
+            onValChange: {
+                ifKeyIn: ['value'],
+            }
+        }
     },
     superclass: BeLinkValued
 });

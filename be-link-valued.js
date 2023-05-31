@@ -23,6 +23,7 @@ export class BeLinkValued extends BE {
         }
         const split = (enhancedElement.getAttribute('href')).split('/');
         const lastVal = split.at(-1);
+        this.ignoreValChange = true;
         switch (lastVal) {
             case 'True':
                 this.value = true;
@@ -38,6 +39,18 @@ export class BeLinkValued extends BE {
         if (this.#mutationObserver !== undefined)
             this.#mutationObserver.disconnect();
     }
+    onValChange(self) {
+        if (this.ignoreValChange) {
+            this.ignoreValChange = false;
+            return;
+        }
+        const { value, enhancedElement } = self;
+        if (value === undefined)
+            return;
+        const urlVal = value === true ? 'True' :
+            value === false ? 'False' : value;
+        enhancedElement.href = 'https://schema.org/' + urlVal;
+    }
 }
 const tagName = 'be-link-valued';
 const ifWantsToBe = 'link-valued';
@@ -47,6 +60,7 @@ const xe = new XE({
         tagName,
         propDefaults: {
             ...propDefaults,
+            ignoreValChange: false,
         },
         propInfo: {
             ...propInfo,
@@ -56,7 +70,11 @@ const xe = new XE({
                 }
             }
         },
-        actions: {}
+        actions: {
+            onValChange: {
+                ifKeyIn: ['value'],
+            }
+        }
     },
     superclass: BeLinkValued
 });

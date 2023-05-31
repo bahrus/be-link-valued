@@ -7,7 +7,8 @@ export interface EndUserProps extends IBE<HTMLLinkElement>{
 
 
 export interface AllProps extends EndUserProps{
-    value?: string | boolean
+    value?: string | boolean;
+    //ignoreValChange: boolean;
 }
 
 export type AP = AllProps;
@@ -18,4 +19,7 @@ export type ProPAP = Promise<PAP>;
 
 export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>];
 
-export interface Actions{}
+export interface Actions{
+    onValChange(self: this): void;
+    
+}
