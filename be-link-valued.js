@@ -3,6 +3,7 @@ import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
 export class BeLinkValued extends BE {
     #mutationObserver;
+    #ignoreValChange = false;
     async attach(enhancedElement, enhancementInfo) {
         await super.attach(enhancedElement, enhancementInfo);
         const mutOptions = {
@@ -23,7 +24,7 @@ export class BeLinkValued extends BE {
         }
         const split = (enhancedElement.getAttribute('href')).split('/');
         const lastVal = split.at(-1);
-        this.ignoreValChange = true;
+        this.#ignoreValChange = true;
         switch (lastVal) {
             case 'True':
                 this.value = true;
@@ -34,14 +35,15 @@ export class BeLinkValued extends BE {
             default:
                 this.value = lastVal;
         }
+        this.resolved = true;
     }
     detach(detachedElement) {
         if (this.#mutationObserver !== undefined)
             this.#mutationObserver.disconnect();
     }
     onValChange(self) {
-        if (this.ignoreValChange) {
-            this.ignoreValChange = false;
+        if (this.#ignoreValChange) {
+            this.#ignoreValChange = false;
             return;
         }
         const { value, enhancedElement } = self;
@@ -60,7 +62,6 @@ const xe = new XE({
         tagName,
         propDefaults: {
             ...propDefaults,
-            ignoreValChange: false,
         },
         propInfo: {
             ...propInfo,
